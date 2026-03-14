@@ -10,10 +10,11 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      # 持久化数据目录
       - ./data:/app/data
     environment:
       - TZ=Asia/Shanghai
+      - AVE_API_KEY=${AVE_API_KEY:-uHxe2IxOYEx3vHNpUpPtVDJVd2UTPycHLimZkAIpyMxkGS9GE84tf05VU96Uwgdm}
+      - AVE_API_BASE=${AVE_API_BASE:-https://prod.ave-api.com}
     networks:
       - meme-network
     healthcheck:

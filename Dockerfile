@@ -29,6 +29,9 @@ COPY backend/ ./backend/
 # 复制前端代码
 COPY frontend/ ./frontend/
 
+# 复制扫描脚本
+COPY scanner.py ./scanner.py
+
 # 创建数据目录
 RUN mkdir -p /app/data
 
