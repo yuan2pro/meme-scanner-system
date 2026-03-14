@@ -21,33 +21,43 @@ meme-scanner-system/
 ├── frontend/
 │   └── index.html           # Vue.js 前端
 ├── data/                     # 数据文件 (运行时生成)
-├── start.sh                 # 启动脚本
-└── README.md                # 本文档
+├── Dockerfile               # Docker 镜像配置
+├── docker-compose.yml       # Docker Compose 配置
+├── deploy.sh                # Docker 部署脚本
+├── start.sh                 # 本地启动脚本
+├── .dockerignore           # Docker 忽略文件
+├── .gitignore              # Git 忽略文件
+└── README.md               # 本文档
 ```
 
 ## 🚀 快速开始
 
-### 1. 安装依赖
+### 方式一：Docker 部署（推荐）⭐
 
 ```bash
-cd /home/n100/.openclaw/workspace/meme-scanner-system/backend
-pip3 install -r requirements.txt
+# 一键部署
+./deploy.sh
+
+# 或手动执行
+docker-compose up -d
 ```
 
-### 2. 启动系统
+### 方式二：本地运行
 
 ```bash
-# 方式一：使用启动脚本
-./start.sh
-
-# 方式二：手动启动
+# 1. 安装依赖
 cd backend
+pip3 install -r requirements.txt
+
+# 2. 启动服务
 python3 main.py
 ```
 
 ### 3. 访问前端
 
 打开浏览器访问：**http://localhost:8000**
+
+**📋 API 文档：** http://localhost:8000/docs
 
 ## ⚙️ 配置说明
 
@@ -88,11 +98,56 @@ python3 main.py
 ### GET /api/tokens
 获取代币列表
 
+## 🐳 Docker 部署
+
+### 一键部署
+
+```bash
+./deploy.sh
+```
+
+### 手动部署
+
+```bash
+# 构建镜像
+docker-compose build
+
+# 启动容器
+docker-compose up -d
+
+# 查看日志
+docker logs -f meme-scanner
+
+# 停止服务
+docker-compose down
+```
+
+### 数据持久化
+
+数据自动挂载到 `./data` 目录，容器删除后数据不丢失。
+
+### 常用命令
+
+```bash
+# 查看状态
+docker-compose ps
+
+# 重启服务
+docker-compose restart
+
+# 重新构建
+docker-compose up -d --build
+
+# 查看资源使用
+docker stats meme-scanner
+```
+
 ## 🔒 注意事项
 
 1. 本系统仅供学习研究使用
 2. Meme 币风险极高，请谨慎投资
 3. 确保网络环境可以访问 gmgn.ai 和 Ave.ai
+4. Docker 部署需确保 8000 端口未被占用
 
 ## 📝 技术栈
 
@@ -100,6 +155,7 @@ python3 main.py
 - **前端**: Vue.js 3 + Axios
 - **数据源**: gmgn.ai, Ave.ai
 - **UI**: 自定义 CSS
+- **部署**: Docker + Docker Compose
 
 ## 🤝 贡献
 
