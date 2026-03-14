@@ -7,7 +7,7 @@ Meme Scanner System - Backend API
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import json
@@ -28,6 +28,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 挂载静态文件目录（前端）
+FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
+app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 
 # 数据文件路径
 DATA_DIR = "/home/n100/.openclaw/workspace/meme-scanner-system/data"
@@ -100,9 +104,14 @@ def save_results(data):
 
 # --- API 接口 ---
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    return {"message": "Meme Scanner API", "version": "1.0.0"}
+    """返回前端页面"""
+    index_path = os.path.join(FRONTEND_DIR, "index.html")
+    if os.path.exists(index_path):
+        with open(index_path, "r", encoding="utf-8") as f:
+            return f.read()
+    return HTMLResponse("<h1>Meme Scanner</h1><p>Frontend not found</p>", status_code=404)
 
 @app.get("/api/status")
 async def get_status():
