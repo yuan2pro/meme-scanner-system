@@ -8,7 +8,9 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    AVE_API_KEY=${AVE_API_KEY:-uHxe2IxOYEx3vHNpUpPtVDJVd2UTPycHLimZkAIpyMxkGS9GE84tf05VU96Uwgdm} \
+    AVE_API_BASE=${AVE_API_BASE:-https://prod.ave-api.com}
 
 # 安装系统依赖
 RUN apt-get update && apt-get install -y --no-install-recommends \

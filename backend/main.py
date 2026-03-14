@@ -17,6 +17,10 @@ import time
 import os
 from datetime import datetime
 import uvicorn
+from dotenv import load_dotenv
+
+# 加载环境变量
+load_dotenv()
 
 app = FastAPI(title="Meme Scanner API", version="1.0.0")
 
@@ -34,7 +38,7 @@ FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "fronten
 app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 
 # 数据文件路径
-DATA_DIR = "/home/n100/.openclaw/workspace/meme-scanner-system/data"
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 SCANNED_FILE = os.path.join(DATA_DIR, "scanned_tokens.json")
 RESULTS_FILE = os.path.join(DATA_DIR, "latest_results.json")
 CONFIG_FILE = os.path.join(DATA_DIR, "config.json")
@@ -42,8 +46,9 @@ CONFIG_FILE = os.path.join(DATA_DIR, "config.json")
 # 确保数据目录存在
 os.makedirs(DATA_DIR, exist_ok=True)
 
-# Ave.ai API Key
-AVE_API_KEY = "uHxe2IxOYEx3vHNpUpPtVDJVd2UTPycHLimZkAIpyMxkGS9GE84tf05VU96Uwgdm"
+# Ave.ai API 配置（从环境变量读取）
+AVE_API_KEY = os.getenv("AVE_API_KEY", "uHxe2IxOYEx3vHNpUpPtVDJVd2UTPycHLimZkAIpyMxkGS9GE84tf05VU96Uwgdm")
+AVE_API_BASE = os.getenv("AVE_API_BASE", "https://prod.ave-api.com")
 
 # 默认配置
 DEFAULT_CONFIG = {
